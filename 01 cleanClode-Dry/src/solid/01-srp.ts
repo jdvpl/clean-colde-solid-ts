@@ -20,16 +20,22 @@
     }
   }
   class ProductBloc {
+    private productService: ProductService;
+    private mailer: Mailer;
+    constructor() {
+      this.productService = new ProductService();
+      this.mailer = new Mailer();
+    }
     loadProduct(id: number) {
       // Realiza un proceso para obtener el producto y retornarlo
-      console.log("Producto: ", { id, name: "OLED Tv" });
+      this.productService.getProduct(id);
     }
     saveProduct(product: Product) {
       // Realiza una petición para salvar en base de datos
-      console.log("Guardando en base de datos", product);
+      this.productService.saveProduct(product);
     }
     notifyClients() {
-      console.log("Enviando correo a los clientes");
+      this.mailer.sendEmail(["jdvplsuarez@gmail.com"], "to-client");
     }
   }
   class CartBloc {
