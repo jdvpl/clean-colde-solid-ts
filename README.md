@@ -64,6 +64,36 @@ En este ejemplo, la interfaz `Shape` define un método `area` que debe ser imple
 
 ## liskov substitution principle
 
+El principio de sustitución de Liskov establece que los objetos de una clase derivada deben ser sustituibles por objetos de la clase base sin alterar el correcto funcionamiento del programa. Esto significa que las clases derivadas deben poder usarse en lugar de las clases base sin que el comportamiento del sistema se vea afectado negativamente.
+
+### Ejemplo
+
+```typescript
+class Bird {
+  fly() {
+    console.log("Flying");
+  }
+}
+
+class Penguin extends Bird {
+  fly() {
+    throw new Error("Penguins can't fly");
+  }
+}
+
+function makeBirdFly(bird: Bird) {
+  bird.fly();
+}
+
+const bird = new Bird();
+const penguin = new Penguin();
+
+makeBirdFly(bird); // Output: Flying
+makeBirdFly(penguin); // Error: Penguins can't fly
+```
+
+En este ejemplo, la clase `Penguin` extiende la clase `Bird`, pero no cumple con el principio de sustitución de Liskov porque no puede volar. Si intentamos usar un `Penguin` en lugar de un `Bird`, el programa lanzará un error. Para cumplir con el principio de sustitución de Liskov, deberíamos diseñar nuestras clases de manera que las clases derivadas puedan sustituir a las clases base sin problemas.
+
 ## inversion
 
 ## dependency inversion principle
