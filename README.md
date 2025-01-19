@@ -90,6 +90,49 @@ makeBirdFly(penguin); // Error: Penguins can't fly
 
 En este ejemplo, la clase `Penguin` extiende la clase `Bird`, pero no cumple con el principio de sustitución de Liskov porque no puede volar. Si intentamos usar un `Penguin` en lugar de un `Bird`, el programa lanzará un error. Para cumplir con el principio de sustitución de Liskov, deberíamos diseñar nuestras clases de manera que las clases derivadas puedan sustituir a las clases base sin problemas.
 
-## inversion
+
+## interface segregation principle
+
+El principio de segregación de interfaces establece que los clientes no deben verse obligados a depender de interfaces que no utilizan. Esto significa que es mejor tener varias interfaces específicas y pequeñas en lugar de una única interfaz general y grande.
+
+### Ejemplo
+
+```typescript
+interface Printer {
+  print(): void;
+}
+
+interface Scanner {
+  scan(): void;
+}
+
+class AllInOnePrinter implements Printer, Scanner {
+  print() {
+    console.log("Printing...");
+  }
+
+  scan() {
+    console.log("Scanning...");
+  }
+}
+
+class SimplePrinter implements Printer {
+  print() {
+    console.log("Printing...");
+  }
+}
+
+function usePrinter(printer: Printer) {
+  printer.print();
+}
+
+const allInOne = new AllInOnePrinter();
+const simplePrinter = new SimplePrinter();
+
+usePrinter(allInOne); // Output: Printing...
+usePrinter(simplePrinter); // Output: Printing...
+```
+
+En este ejemplo, tenemos dos interfaces `Printer` y `Scanner` que definen métodos específicos para imprimir y escanear, respectivamente. La clase `AllInOnePrinter` implementa ambas interfaces, mientras que la clase `SimplePrinter` solo implementa la interfaz `Printer`. De esta manera, las clases solo dependen de las interfaces que realmente utilizan, cumpliendo con el principio de segregación de interfaces.
 
 ## dependency inversion principle
