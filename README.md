@@ -136,3 +136,45 @@ usePrinter(simplePrinter); // Output: Printing...
 En este ejemplo, tenemos dos interfaces `Printer` y `Scanner` que definen métodos específicos para imprimir y escanear, respectivamente. La clase `AllInOnePrinter` implementa ambas interfaces, mientras que la clase `SimplePrinter` solo implementa la interfaz `Printer`. De esta manera, las clases solo dependen de las interfaces que realmente utilizan, cumpliendo con el principio de segregación de interfaces.
 
 ## dependency inversion principle
+
+
+El principio de inversión de dependencias establece que los módulos de alto nivel no deben depender de los módulos de bajo nivel. Ambos deben depender de abstracciones. Además, las abstracciones no deben depender de los detalles. Los detalles deben depender de las abstracciones.
+
+### Ejemplo
+
+```typescript
+interface Database {
+  save(data: string): void;
+}
+
+class MySQLDatabase implements Database {
+  save(data: string) {
+    console.log(`Saving ${data} to MySQL database`);
+  }
+}
+
+class MongoDBDatabase implements Database {
+  save(data: string) {
+    console.log(`Saving ${data} to MongoDB database`);
+  }
+}
+
+class UserService {
+  constructor(private database: Database) {}
+
+  saveUser(data: string) {
+    this.database.save(data);
+  }
+}
+
+const mySQLDatabase = new MySQLDatabase();
+const mongoDBDatabase = new MongoDBDatabase();
+
+const userServiceWithMySQL = new UserService(mySQLDatabase);
+const userServiceWithMongoDB = new UserService(mongoDBDatabase);
+
+userServiceWithMySQL.saveUser("User data"); // Output: Saving User data to MySQL database
+userServiceWithMongoDB.saveUser("User data"); // Output: Saving User data to MongoDB database
+```
+
+En este ejemplo, la clase `UserService` depende de la abstracción `Database` en lugar de depender directamente de una implementación específica de base de datos como `MySQLDatabase` o `MongoDBDatabase`. Esto permite que `UserService` funcione con cualquier implementación de `Database`, cumpliendo con el principio de inversión de dependencias.
